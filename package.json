@@ -1,0 +1,27 @@
+{
+  "name": "multer-dropbox",
+  "version": "1.0.0",
+  "description": "Dropbox Multer Storage Engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dropbox",
+    "multer",
+    "form",
+    "post",
+    "multipart",
+    "form-data",
+    "formdata",
+    "express",
+    "middleware"
+  ],
+  "author": "demingongo",
+  "license": "MIT",
+  "dependencies": {
+    "@novice1/logger": "^1.1.1",
+    "dropbox": "^4.0.30",
+    "run-parallel": "^1.1.9"
+  }
+}
