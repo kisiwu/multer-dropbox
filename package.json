@@ -1,8 +1,12 @@
 {
   "name": "multer-dropbox",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dropbox Multer Storage Engine",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kisiwu/multer-dropbox.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
