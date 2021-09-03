@@ -69,8 +69,8 @@ function DropboxStorage (client, opts) {
 }
 
 DropboxStorage.prototype.getFilesCommitInfo = function (req, file, cb) {
-  var storage = this
-  var tasks = []
+  const storage = this;
+  const tasks = [];
 
   METHODS.forEach(
     method => {
@@ -85,7 +85,7 @@ DropboxStorage.prototype.getFilesCommitInfo = function (req, file, cb) {
     storage.filesCommitInfo(req, file, (err2, replacements) => {
       if(err2) return cb(err2)
 
-      var filesCommitInfo = {};
+      let filesCommitInfo = {};
 
       METHODS.forEach((m, i) => {
         if(typeof results[i] != 'undefined') {
@@ -103,7 +103,7 @@ DropboxStorage.prototype.getFilesCommitInfo = function (req, file, cb) {
 }
 
 DropboxStorage.prototype._handleFile = function (req, file, cb) {
-  var storage = this;
+  const storage = this;
 
   this.getFilesCommitInfo(req, file, function (err, filesCommitInfo) {
     if (err) return cb(err)
