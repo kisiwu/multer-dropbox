@@ -8,8 +8,6 @@
     "url": "https://github.com/kisiwu/multer-dropbox.git"
   },
   "scripts": {
-    "doc": "typedoc",
-    "build": "tsc",
     "lint": "eslint index.d.ts",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\", \"noUnusedParameters\": false}' kaukau --require ts-node/register --config kaukau.config.js"
   },
