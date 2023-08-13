@@ -13,8 +13,8 @@ declare namespace multerDropbox {
     ): void;
   }
   export interface CommitInfo {
-    filesCommitInfo?: Partial<files.CommitInfo> | IValueMethod<Partial<files.CommitInfo>>,
-    contents?: files.CommitInfo['contents'] | IValueMethod<files.CommitInfo['contents']>,
+    filesCommitInfo?: Partial<files.UploadArg> | IValueMethod<Partial<files.UploadArg>>,
+    contents?: files.UploadArg['contents'] | IValueMethod<files.UploadArg['contents']>,
     path?: files.CommitInfo['path'] | IValueMethod<files.CommitInfo['path']>,
     mode?: files.CommitInfo['mode'] | IValueMethod<files.CommitInfo['mode']>,
     autorename?: files.CommitInfo['autorename'] | IValueMethod<files.CommitInfo['autorename']>,
@@ -28,7 +28,7 @@ declare namespace multerDropbox {
       req: Express.Request,
       file: Express.Multer.File,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      callback: (error?: any, filesCommitInfo?: Partial<files.CommitInfo>) => void
+      callback: (error?: any, filesCommitInfo?: Partial<files.UploadArg>) => void
     ): void;
   }
 }
