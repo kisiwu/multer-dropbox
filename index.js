@@ -22,8 +22,8 @@
  */
 /** */
 
-const Log = require("@novice1/logger").debugger("multer:dropbox")
-const { DropboxBase } = require("dropbox")
+const Log = require('@novice1/logger').debugger('multer:dropbox')
+const { DropboxBase } = require('dropbox')
 const parallel = require('run-parallel')
 
 const METHODS = [

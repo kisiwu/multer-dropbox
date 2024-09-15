@@ -1,6 +1,6 @@
 {
   "name": "multer-dropbox",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Dropbox Multer Storage Engine",
   "main": "index.js",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint index.d.ts",
-    "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\", \"noUnusedParameters\": false}' kaukau --require ts-node/register --config kaukau.config.js"
+    "test": "kaukau --require ts-node/register --config kaukau.config.js"
   },
   "keywords": [
     "dropbox",
@@ -25,22 +25,22 @@
   "author": "demingongo",
   "license": "MIT",
   "dependencies": {
-    "@novice1/logger": "^1.3.3",
+    "@novice1/logger": "^1.5.0",
     "dropbox": "^10.34.0",
     "run-parallel": "^1.2.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.5",
-    "@types/mocha": "^10.0.1",
-    "@types/multer": "^1.4.7",
-    "@types/node": "^20.5.0",
-    "@typescript-eslint/eslint-plugin": "^6.3.0",
-    "@typescript-eslint/parser": "^6.3.0",
-    "eslint": "^8.47.0",
-    "kaukau": "^3.0.0",
+    "@types/chai": "^4.3.19",
+    "@types/mocha": "^10.0.8",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.5.5",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.0",
+    "kaukau": "^3.1.2",
     "multer": "^1.4.5-lts.1",
-    "ts-node": "^10.9.1",
-    "tslib": "^2.6.1",
-    "typescript": "^5.1.6"
+    "ts-node": "^10.9.2",
+    "tslib": "^2.7.0",
+    "typescript": "^5.6.2"
   }
 }
