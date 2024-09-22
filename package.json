@@ -1,6 +1,6 @@
 {
   "name": "multer-dropbox",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Dropbox Multer Storage Engine",
   "main": "index.js",
   "repository": {
@@ -34,10 +34,10 @@
     "@types/mocha": "^10.0.8",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.5.5",
-    "@typescript-eslint/eslint-plugin": "^7.18.0",
-    "@typescript-eslint/parser": "^7.18.0",
+    "@typescript-eslint/eslint-plugin": "^8.6.0",
+    "@typescript-eslint/parser": "^8.6.0",
     "eslint": "^8.57.0",
-    "kaukau": "^3.1.2",
+    "kaukau": "^4.0.0",
     "multer": "^1.4.5-lts.1",
     "ts-node": "^10.9.2",
     "tslib": "^2.7.0",
