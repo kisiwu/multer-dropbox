@@ -130,7 +130,7 @@ DropboxStorage.prototype._removeFile = function (req, file, cb) {
   this.client(req, file, function (err, client) {
     if (err) return cb(err)
 
-    client.filesDeleteV2({path: file.path_display}).then(
+    client.filesDeleteV2({path: file.result.path_display}).then(
       r => cb(null, r),
       err => {
         Log.error(err);

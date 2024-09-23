@@ -1,6 +1,6 @@
 {
   "name": "multer-dropbox",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Dropbox Multer Storage Engine",
   "main": "index.js",
   "repository": {
