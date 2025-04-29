@@ -6,7 +6,7 @@ import fs from 'fs';
 
 describe('multer-dropbox', function () {
 
-  it('should be fine', (done) => {
+  it('should be fine', function(done) {
     // create Dropbox client
     const client = new Dropbox();
 

@@ -23,7 +23,7 @@
 /** */
 
 const Log = require('@novice1/logger').debugger('multer:dropbox')
-const { DropboxBase } = require('dropbox')
+const { _DropboxBase } = require('dropbox')
 const parallel = require('run-parallel')
 
 const METHODS = [
@@ -44,7 +44,7 @@ function staticValue (value) {
 }
 
 /**
- * @param {Function|DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
+ * @param {Function|_DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
  * @param {object} opts
     Object with the following properties:
     - filesCommitInfo: [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
@@ -142,7 +142,7 @@ DropboxStorage.prototype._removeFile = function (req, file, cb) {
 
 /**
  * 
- * @param {Function|DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
+ * @param {Function|_DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
  * @param {object} opts
     Object with the following properties:
     - filesCommitInfo: [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).

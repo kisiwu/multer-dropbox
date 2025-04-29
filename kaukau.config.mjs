@@ -1,4 +1,6 @@
-module.exports = {
+import { defineConfig } from 'kaukau/config'
+
+export default defineConfig({
   enableLogs: true,
   exitOnFail: true,
   files: 'test',
@@ -15,4 +17,4 @@ module.exports = {
     ui: 'bdd',
     color: true,
   }
-};
+})
