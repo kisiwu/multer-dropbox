@@ -1,5 +1,5 @@
-import { Dropbox, files } from 'dropbox';
-import { StorageEngine } from 'multer'
+import { Dropbox, type files } from 'dropbox';
+import type { StorageEngine } from 'multer'
 
 export = multerDropbox;
 

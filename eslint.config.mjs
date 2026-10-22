@@ -6,7 +6,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
 import { FlatCompat } from '@eslint/eslintrc'
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticJs from '@stylistic/eslint-plugin'
 import mochaPlugin from 'eslint-plugin-mocha'
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,7 +23,7 @@ export default defineConfig([{
 
     plugins: {
         '@typescript-eslint': typescriptEslint,
-        '@stylistic/js': stylisticJs
+        '@stylistic': stylisticJs
     },
 
     languageOptions: {
@@ -37,8 +37,8 @@ export default defineConfig([{
     },
 
     rules: {
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
+        '@stylistic/quotes': ['warn', 'single'],
+        '@stylistic/quote-props': ['error', 'as-needed'],
     },
 }, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
@@ -46,7 +46,7 @@ export default defineConfig([{
 
     plugins: {
         '@typescript-eslint': typescriptEslint,
-        '@stylistic/js': stylisticJs
+        '@stylistic': stylisticJs
     },
 
     languageOptions: {
@@ -61,8 +61,8 @@ export default defineConfig([{
 
     rules: {
         'mocha/no-setup-in-describe': ['off'],
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
+        '@stylistic/quotes': ['warn', 'single'],
+        '@stylistic/quote-props': ['error', 'as-needed'],
     },
 }, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
@@ -70,7 +70,7 @@ export default defineConfig([{
 
 
     plugins: {
-        '@stylistic/js': stylisticJs
+        '@stylistic': stylisticJs
     },
 
     languageOptions: {
@@ -84,8 +84,8 @@ export default defineConfig([{
 
     rules: {
         'mocha/no-setup-in-describe': ['off'],
-        '@stylistic/js/quotes': ['warn', 'single'],
-        '@stylistic/js/quote-props': ['error', 'as-needed'],
+        '@stylistic/quotes': ['warn', 'single'],
+        '@stylistic/quote-props': ['error', 'as-needed'],
         'no-unused-vars': [
             'error',
             {

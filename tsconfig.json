@@ -4,7 +4,8 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "typeRoots": ["node_modules/@types"],
-    "module": "CommonJS",
+    "types": ["node", "mocha"],
+    "module": "nodenext",
     "lib": ["DOM", "ES6"],
     "target": "ES6",
     "importHelpers": true,
@@ -24,7 +25,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     // use Node's module resolution algorithm, instead of the legacy TS one
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     // interop between ESM and CJS modules. Recommended by TS
     "esModuleInterop": true,
     // significant perf increase by skipping checking .d.ts files, particularly those in node_modules. Recommended by TS

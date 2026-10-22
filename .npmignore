@@ -2,8 +2,9 @@ private
 /test
 kaukau.config.js
 tsconfig.json
-.eslintrc.json
+*.config.mjs
 .github
+
 
 # Logs
 logs
