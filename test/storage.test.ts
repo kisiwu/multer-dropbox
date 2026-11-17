@@ -1,12 +1,12 @@
-import multerDbx from 'multer-dropbox'
+import multerDbx from '../index.js'
 import { Dropbox } from 'dropbox'
 import multer from 'multer'
 import { expect } from 'chai'
 import fs from 'fs';
 
-describe('multer-dropbox', function () {
+describe('multer-dropbox (TS)', function () {
 
-  it('should be fine', function(done) {
+  it('should be fine', function (done) {
     // create Dropbox client
     const client = new Dropbox();
 
@@ -48,6 +48,8 @@ describe('multer-dropbox', function () {
       expect(res?.mode).to.be.an('object')
         .that.has.property('.tag')
         .that.equals('add');
+
+      this.kaukau.logger.success('Files commit info retrieved successfully');
       done(err);
     });
   })

@@ -2,9 +2,8 @@ import { defineConfig } from 'kaukau/config'
 
 export default defineConfig({
   enableLogs: true,
-  exitOnFail: true,
+  exitOnFail: false,
   files: 'test',
-  ext: '.test.ts',
   options: {
     bail: false,
     fullTrace: true,
@@ -16,5 +15,22 @@ export default defineConfig({
     timeout: 2000,
     ui: 'bdd',
     color: true,
-  }
+  },
+  parameters: [
+    {
+      kaukauOptions: {
+        ext: '.test.ts',
+      }
+    },
+    {
+      kaukauOptions: {
+        ext: '.test.mjs',
+      }
+    },
+    {
+      kaukauOptions: {
+        ext: '.test.cjs',
+      }
+    }
+  ]
 })
