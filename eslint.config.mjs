@@ -19,7 +19,7 @@ const compat = new FlatCompat({
 
 export default defineConfig([{
     extends: compat.extends('eslint:recommended', 'plugin:@typescript-eslint/recommended'),
-    files: ['*.{ts,mjs}'],
+    files: ['*.{ts,mjs,js}'],
 
     plugins: {
         '@typescript-eslint': typescriptEslint,
@@ -32,7 +32,7 @@ export default defineConfig([{
         },
 
         parser: tsParser,
-        ecmaVersion: 6,
+        ecmaVersion: 2022,
         sourceType: 'module',
     },
 
@@ -42,7 +42,7 @@ export default defineConfig([{
     },
 }, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
-    files: ['test/**/*.mjs', 'test/**/*.ts'],
+    files: ['test/**/*.js', 'test/**/*.mjs', 'test/**/*.ts'],
 
     plugins: {
         '@typescript-eslint': typescriptEslint,
@@ -55,7 +55,7 @@ export default defineConfig([{
         },
 
         parser: tsParser,
-        ecmaVersion: 6,
+        ecmaVersion: 2022,
         sourceType: 'module',
     },
 
@@ -66,7 +66,7 @@ export default defineConfig([{
     },
 }, {
     extends: [...compat.extends('eslint:recommended'), mochaPlugin.configs.recommended],
-    files: ['test/**/*.js', '*.js'],
+    files: ['test/**/*.cjs', '*.cjs'],
 
 
     plugins: {

@@ -1,4 +1,4 @@
-import multerDbx from '../index'
+import multerDbx from 'multer-dropbox'
 import { Dropbox } from 'dropbox'
 import multer from 'multer'
 import { expect } from 'chai'

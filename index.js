@@ -20,11 +20,28 @@
  * @property {Array} [property_groups] Array.<FilePropertiesPropertyGroup>
  * @property {boolean} [strict_conflict]
  */
+
+/**
+ * @typedef {(req: Express.Request, file: Express.Multer.File, cb: ((error?: any, value?: T) => void)) => void} MulterDropboxValueFunction<T>
+ * @template T
+ * @param {T} value The static value to be returned by the function.
+ */
+
+/**
+ * @typedef {Object} CommitInfo
+ * @property {MulterDropboxValueFunction<FilesCommitInfo>|FilesCommitInfo} [filesCommitInfo] [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
+ * @property {MulterDropboxValueFunction<string>|string} [path]
+ * @property {MulterDropboxValueFunction<Object>|Object} [contents]
+ * @property {MulterDropboxValueFunction<Object>|Object} [mode]
+ * @property {MulterDropboxValueFunction<boolean>|boolean} [autorename]
+ * @property {MulterDropboxValueFunction<Object>|Object} [client_modified]
+ * @property {MulterDropboxValueFunction<boolean>|boolean} [mute]
+ * @property {MulterDropboxValueFunction<Array>|Array} [property_groups]
+ * @property {MulterDropboxValueFunction<boolean>|boolean} [strict_conflict]
+ */
 /** */
 
-const Log = require('@novice1/logger').debugger('multer:dropbox')
-const { _DropboxBase } = require('dropbox')
-const parallel = require('run-parallel')
+import parallel from 'run-parallel'
 
 const METHODS = [
   'path',
@@ -37,127 +54,111 @@ const METHODS = [
   'strict_conflict'
 ];
 
-function staticValue (value) {
+/**
+ * @template T
+ * @param {T} value 
+ * @returns {MulterDropboxValueFunction<T>}
+ */
+function staticValue(value) {
   return function (req, file, cb) {
     cb(null, value)
   }
 }
 
-/**
- * @param {Function|_DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
- * @param {object} opts
-    Object with the following properties:
-    - filesCommitInfo: [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
- * @param {Function|FilesCommitInfo} [opts.filesCommitInfo] [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
- * @param {Function|string} [opts.path]
- * @param {Function|Object} [opts.contents]
- * @param {Function|Object} [opts.mode]
- * @param {Function|boolean} [opts.autorename]
- * @param {Function|Object} [opts.client_modified]
- * @param {Function|boolean} [opts.mute]
- * @param {Function|Array} [opts.property_groups]
- * @param {Function|boolean} [opts.strict_conflict]
- */
-function DropboxStorage (client, opts) {
-  this.client = typeof client == 'function' ? client : staticValue(client);
 
-  METHODS.forEach(method => {
-    this[method] = typeof opts[method] == 'function' ? opts[method] : staticValue(opts[method]);
-  });
 
-  this.filesCommitInfo = typeof opts.filesCommitInfo == 'function' ? opts.filesCommitInfo : staticValue(opts.filesCommitInfo);
-}
 
-DropboxStorage.prototype.getFilesCommitInfo = function (req, file, cb) {
-  const storage = this;
-  const tasks = [];
+class DropboxStorage {
+  /**
+    * @param {MulterDropboxValueFunction<import('dropbox').Dropbox>|import('dropbox').Dropbox} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
+    * @param {CommitInfo} opts
+    */
+  constructor(client, opts) {
+    this.client = typeof client == 'function' ? client : staticValue(client);
 
-  METHODS.forEach(
-    method => {
-      tasks.push(storage[method].bind(storage, req, file))
-    }
-  );
+    METHODS.forEach(method => {
+      this[method] = typeof opts[method] == 'function' ? opts[method] : staticValue(opts[method]);
+    });
 
-  parallel(tasks,
-  (err, results) => {
-    if(err) return cb(err)
+    this.filesCommitInfo = typeof opts.filesCommitInfo == 'function' ? opts.filesCommitInfo : staticValue(opts.filesCommitInfo);
+  }
 
-    storage.filesCommitInfo(req, file, (err2, replacements) => {
-      if(err2) return cb(err2)
+  getFilesCommitInfo(req, file, cb) {
+    const tasks = [];
 
-      let filesCommitInfo = {};
+    METHODS.forEach(
+      method => {
+        tasks.push(this[method].bind(this, req, file))
+      }
+    );
 
-      METHODS.forEach((m, i) => {
-        if(typeof results[i] != 'undefined') {
-          filesCommitInfo[m] = results[i]
-        }
+    parallel(tasks,
+      (err, results) => {
+        if (err) return cb(err)
+
+        this.filesCommitInfo(req, file, (err2, replacements) => {
+          if (err2) return cb(err2)
+
+          let filesCommitInfo = {};
+
+          METHODS.forEach((m, i) => {
+            if (typeof results[i] != 'undefined') {
+              filesCommitInfo[m] = results[i]
+            }
+          })
+
+          if (replacements && typeof replacements == 'object') {
+            Object.assign(filesCommitInfo, replacements)
+          }
+
+          cb(null, filesCommitInfo)
+        })
       })
-      
-      if (replacements && typeof replacements == 'object') {
-        Object.assign(filesCommitInfo, replacements)
+  }
+
+  _handleFile(req, file, cb) {
+
+    this.getFilesCommitInfo(req, file, (err, filesCommitInfo) => {
+      if (err) return cb(err)
+
+      if (filesCommitInfo && !filesCommitInfo.contents) {
+        filesCommitInfo.contents = file.stream;
       }
 
-      cb(null, filesCommitInfo)
-    })
-  })
-}
+      this.client(req, file, (err2, client) => {
+        if (err2) return cb(err2)
 
-DropboxStorage.prototype._handleFile = function (req, file, cb) {
-  const storage = this;
+        client.filesUpload(filesCommitInfo).then(
+          f => cb(null, f),
+          err => {
+            cb(err);
+          }
+        );
+      });
+    });
+  }
 
-  this.getFilesCommitInfo(req, file, function (err, filesCommitInfo) {
-    if (err) return cb(err)
+  _removeFile(req, file, cb) {
+    this.client(req, file, (err, client) => {
+      if (err) return cb(err)
 
-    if (filesCommitInfo && !filesCommitInfo.contents) {
-      filesCommitInfo.contents = file.stream;
-    }
-
-    storage.client(req, file, function (err2, client) {
-      if (err2) return cb(err2)
-
-      client.filesUpload(filesCommitInfo).then(
-        f => cb(null, f),
+      client.filesDeleteV2({ path: file.result.path_display }).then(
+        r => cb(null, r),
         err => {
-          Log.error(err);
           cb(err);
         }
       );
     });
-  });
-}
-
-DropboxStorage.prototype._removeFile = function (req, file, cb) {
-  this.client(req, file, function (err, client) {
-    if (err) return cb(err)
-
-    client.filesDeleteV2({path: file.result.path_display}).then(
-      r => cb(null, r),
-      err => {
-        Log.error(err);
-        cb(err);
-      }
-    );
-  });
+  }
 }
 
 /**
  * 
- * @param {Function|_DropboxBase} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
- * @param {object} opts
-    Object with the following properties:
-    - filesCommitInfo: [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
- * @param {Function|FilesCommitInfo} [opts.filesCommitInfo] [FilesCommitInfo](http://dropbox.github.io/dropbox-sdk-js/global.html#FilesCommitInfo) or a function that sends it ("contents" being optional).
- * @param {Function|string} [opts.path]
- * @param {Function|Object} [opts.contents]
- * @param {Function|Object} [opts.mode]
- * @param {Function|boolean} [opts.autorename]
- * @param {Function|Object} [opts.client_modified]
- * @param {Function|boolean} [opts.mute]
- * @param {Function|Array} [opts.property_groups]
- * @param {Function|boolean} [opts.strict_conflict]
+ * @param {MulterDropboxValueFunction<import('dropbox').Dropbox>|import('dropbox').Dropbox} client [Dropbox](https://www.npmjs.com/package/dropbox#quickstart) client
+ * @param {CommitInfo} opts
  */
-function multerStorage (client, opts) {
+function multerStorage(client, opts) {
   return new DropboxStorage(client, opts)
 }
 
-module.exports = multerStorage;
+export default multerStorage;
