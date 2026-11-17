@@ -5,7 +5,7 @@ Dropbox Multer Storage Engine.
 ## Installation
 
 ```bash
-$ npm install multer-dropbox
+npm install multer-dropbox
 ```
 
 ## Usage
